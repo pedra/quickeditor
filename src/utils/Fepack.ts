@@ -48,11 +48,16 @@ export function getMessages() {
   return messages
 }
 
-// Load a crypto file .fep
-export function load(callback: Function): void {
+// Load a file
+export function loadFile(
+  ext: string = fileExtension,
+  callback: Function,
+): void {
   const f = document.createElement('input')
   f.type = 'file'
-  f.accept = fileExtension
+  f.accept = ext
+  f.click()
+
   f.onchange = async (e) => {
     e.preventDefault()
     const target = e.target as HTMLInputElement
@@ -64,8 +69,20 @@ export function load(callback: Function): void {
       // eslint-disable-next-line n/no-callback-literal
       return callback(false)
     }
-    const content: string = await file.text()
+    // const content: string = await file.text()
     f.remove()
+
+    callback(file)
+  }
+}
+
+// Load a crypto file .fep
+export function load(callback: Function): void {
+  loadFile(fileExtension, async (file: any) => {
+    // eslint-disable-next-line n/no-callback-literal
+    if (!file) return callback(false)
+
+    const content: string = await file.text()
 
     // Getting the user's password
     const pass: string = getUserPassword().toString()
@@ -88,8 +105,7 @@ export function load(callback: Function): void {
       undefined === data.path || undefined === data.data ? false : data,
       replace,
     )
-  }
-  f.click()
+  })
 }
 
 // Save encrypted file
@@ -108,7 +124,7 @@ export function save(data: dataType): any {
     .replace(/\..*/g, '')
     .replace('T', '')
     .replace(/\:|\-/g, '')
-  const filename = `${path}-${date}${fileExtension}`
+  const filename = `${path === '' ? 'fepack' : path}-${date}${fileExtension}`
 
   saveAs(
     window.URL.createObjectURL(new Blob([enc], { type: 'text/plain' })),
