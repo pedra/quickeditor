@@ -23,6 +23,7 @@ type tMessages = {
   prompt: string
   empty: string
   replace: string
+  invalid: string
 }
 
 const messages: tMessages = {
@@ -30,6 +31,7 @@ const messages: tMessages = {
   empty: 'Password is required!',
   replace:
     'Replace the content of this page?\n\n** Press "CANCEL" to load the new location.',
+  invalid: "It's not a valid file!",
 }
 
 export function setMsgPrompt(value: string) {
@@ -42,6 +44,10 @@ export function setMsgEmpty(value: string) {
 
 export function setMsgReplace(value: string) {
   messages.replace = value
+}
+
+export function setMsgInvalid(value: string) {
+  messages.invalid = value
 }
 
 export function getMessages() {

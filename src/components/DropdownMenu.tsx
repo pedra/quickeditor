@@ -86,7 +86,10 @@ export function DropdownMenu() {
               }),
             ),
           ).then((f) => {
-            const path = ''
+            if (Object.keys(f[0]).length === 0)
+              return alert(Fepack.getMessages().invalid)
+
+            const path = window.location.pathname.replace('/', '')
             Storage.add(f[0], `fronteditor:${path}`)
             window.location.pathname = path
           })
@@ -114,7 +117,7 @@ export function DropdownMenu() {
 
   async function handleLoadAsFepack() {
     Fepack.load((data: Fepack.dataType, replace: boolean = false) => {
-      if (!data) return alert("It's not a valid file!")
+      if (!data) return alert(Fepack.getMessages().invalid)
 
       // Saving and go
       const stg: any = data.data
