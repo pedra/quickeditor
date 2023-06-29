@@ -230,10 +230,14 @@ export function DropdownMenu() {
                   </button>
                 )}
               </Menu.Item>
-              <hr className="my-1 border-1 border-gray-400" />
-              <h3 className="bg-gray-100 py-2 text-sm text-gray-400 uppercase text-center">
-                Projects
-              </h3>
+              {projects.length > 0 && (
+                <>
+                  <hr className="my-1 border-1 border-gray-400" />
+                  <h3 className="bg-gray-100 py-2 text-sm text-gray-400 uppercase text-center">
+                    Projects
+                  </h3>
+                </>
+              )}
               <div style={{ maxHeight: 400, overflowY: 'auto' }}>
                 {projects.map((r, key) => (
                   <Menu.Item key={key}>
