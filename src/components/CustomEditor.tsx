@@ -15,17 +15,18 @@ const CustomEditor = ({ className, language }: CustomEditorProps) => {
   const { handleEditorDidMount, handleValueChange, isEditorReady } =
     useContext(EditorContentContext)
 
-
   /**
    * Responsive
    * remove line numbers when window
    * is bellow 640 (tailwind's sm value)
    */
-  const [showLineNumber, setShowLineNumbers]= useState(true)
- 
+  const [showLineNumber, setShowLineNumbers] = useState(true)
+
   useEffect(() => {
-    const handleResize = () => 
-    window.innerWidth <= 640 ? setShowLineNumbers(false) : setShowLineNumbers(true)
+    const handleResize = () =>
+      window.innerWidth <= 640
+        ? setShowLineNumbers(false)
+        : setShowLineNumbers(true)
 
     window.addEventListener('resize', handleResize)
     handleResize()
@@ -56,7 +57,7 @@ const CustomEditor = ({ className, language }: CustomEditorProps) => {
           lineNumbers: showLineNumber ? 'on' : 'off',
           rulers: [80, 120],
           renderLineHighlight: 'gutter',
-          fontSize: 16,
+          fontSize: 14,
           lineHeight: 26,
           fontFamily: 'JetBrains Mono, Menlo, monospace',
           fontLigatures: true,

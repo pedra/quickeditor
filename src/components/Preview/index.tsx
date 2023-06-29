@@ -6,7 +6,13 @@ import {
   useCallback,
   useRef,
 } from 'react'
-import { motion, PanInfo, useDragControls, useMotionValue, useTransform } from 'framer-motion'
+import {
+  motion,
+  PanInfo,
+  useDragControls,
+  useMotionValue,
+  useTransform,
+} from 'framer-motion'
 import { DotsSixVertical } from 'phosphor-react'
 
 import {
@@ -27,7 +33,10 @@ interface PreviewProps {
   fullscreen: boolean
 }
 
-export default function Preview({ isFloating = false, fullscreen = false }: PreviewProps) {
+export default function Preview({
+  isFloating = false,
+  fullscreen = false,
+}: PreviewProps) {
   const previewRef = useRef<HTMLDivElement>(null)
   const { app } = useContext(EditorContentContext)
 
@@ -50,7 +59,9 @@ export default function Preview({ isFloating = false, fullscreen = false }: Prev
     }, '')
 
     const pageTitle = app.html.match(/<title>(?<title>.+)<\/title>/)
-    const pageIcon = app.html.match(/rel=['"](?:shortcut )?icon['"] href=['"](?<icon>[^?'"]+)[?'"]/)
+    const pageIcon = app.html.match(
+      /rel=['"](?:shortcut )?icon['"] href=['"](?<icon>[^?'"]+)[?'"]/,
+    )
 
     codeToIframe = base64EncodeUnicode(codeToIframe)
     codeToIframe = `data:text/html;charset=utf-8;base64,${codeToIframe}`
@@ -77,15 +88,14 @@ export default function Preview({ isFloating = false, fullscreen = false }: Prev
       editorHotkeys.removeEventListener('save', renderPreview)
     }
   }, [renderPreview])
- 
+
   /**
    * Responsive
-   * Reset the preview to 100% when window 
+   * Reset the preview to 100% when window
    * is bellow 640 (tailwind's sm value)
    */
   useEffect(() => {
-    const handleResize = () => 
-      window.innerWidth <= 640 && previewWidth.set(100)
+    const handleResize = () => window.innerWidth <= 640 && previewWidth.set(100)
 
     window.addEventListener('resize', handleResize)
 
@@ -109,11 +119,11 @@ export default function Preview({ isFloating = false, fullscreen = false }: Prev
 
   const handleResize = useCallback(
     (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-      /* 
-      * this calc is not working good
-      * I wanna something that follows the mouse's pointer
-      */
-      const newWidth = previewWidth.get() - info.delta.x / 8 
+      /*
+       * this calc is not working good
+       * I wanna something that follows the mouse's pointer
+       */
+      const newWidth = previewWidth.get() - info.delta.x / 8
       previewWidth.set(newWidth)
     },
     [previewWidth],
@@ -136,7 +146,11 @@ export default function Preview({ isFloating = false, fullscreen = false }: Prev
         dragControls={dragControls}
         whileDrag={{ cursor: 'grabbing', opacity: 0.6 }}
         animate={isFloating ? previewWindowState : undefined}
-        style={!isFloating ? { width: useTransform(previewWidth, (value) => `${value}%`) } : {}}
+        style={
+          !isFloating
+            ? { width: useTransform(previewWidth, (value) => `${value}%`) }
+            : {}
+        }
         transition={{ duration: 0.2 }}
         variants={{
           maximized: {
@@ -181,7 +195,7 @@ export default function Preview({ isFloating = false, fullscreen = false }: Prev
           />
         </div>
 
-        {(!isFloating && !fullscreen) && (
+        {!isFloating && !fullscreen && (
           <motion.div
             className="top-0 w-3 h-full z-20 absolute cursor-col-resize sm:flex items-center active:w-full hidden"
             drag="x"

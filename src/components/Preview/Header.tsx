@@ -37,11 +37,14 @@ export function Header({
 
   return (
     <header
-      className={classNames('bg-zinc-100 w-full h-8 px-4 grid items-center relative', {
-        [`grid-cols-floatingPreviewHeader`]: isFloating,
-        [`cursor-move`]: canBeDraggable,
-        [`hidden`]: isFullscreen,
-      })}
+      className={classNames(
+        'bg-zinc-100 w-full h-8 px-4 grid items-center relative',
+        {
+          [`grid-cols-floatingPreviewHeader`]: isFloating,
+          [`cursor-move`]: canBeDraggable,
+          [`hidden`]: isFullscreen,
+        },
+      )}
       onPointerDown={canBeDraggable ? onDragStart : undefined}
     >
       {isFloating && (
@@ -80,21 +83,31 @@ export function Header({
       )}
 
       <span
-      className={classNames('text-sm text-zinc-400 justify-self-start flex items-center gap-2', {
-        [`justify-self-center`]: isFloating,
-      })}
+        className={classNames(
+          'text-sm text-zinc-400 justify-self-start flex items-center gap-2',
+          {
+            [`justify-self-center`]: isFloating,
+          },
+        )}
       >
         {windowIcon && (
-          <img src={windowIcon} className='w-[16px] h-[16px] object-cover object-center' />
+          <img
+            src={windowIcon}
+            className="w-[16px] h-[16px] object-cover object-center"
+            alt=""
+          />
         )}
-         {windowTitle}
+        {windowTitle}
       </span>
 
-      <label 
+      <label
         title="Habilitar/desabilitar recarregamento automático"
-        htmlFor="live-reload" 
-        className="hover:opacity-[1] opacity-[0.4] flex gap-2 absolute right-3 top-2">
-        <span className="text-xs text-zinc-500 flex-1 flex justify-end cursor-pointer">Live reload?</span>
+        htmlFor="live-reload"
+        className="hover:opacity-[1] opacity-[0.4] flex gap-2 absolute right-3 top-2"
+      >
+        <span className="text-xs text-zinc-500 flex-1 flex justify-end cursor-pointer">
+          Live reload?
+        </span>
         <input
           id="live-reload"
           type="checkbox"

@@ -129,7 +129,7 @@ export function save(data: dataType): any {
     .toJSON()
     .replace(/\..*/g, '')
     .replace('T', '')
-    .replace(/\:|\-/g, '')
+    .replace(/:|-/g, '')
   const filename = `${path === '' ? 'fepack' : path}-${date}${fileExtension}`
 
   saveAs(

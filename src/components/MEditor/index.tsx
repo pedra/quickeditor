@@ -44,14 +44,24 @@ export function MEditor({
   ]
 
   return (
-    <motion.div 
-      className={classNames("w-screen h-screen overflow-hidden relative sm:flex grid", {
-        [`grid-rows-2`]: !isFullscreen,
-      })}>
+    <motion.div
+      className={classNames(
+        'w-screen h-screen overflow-hidden relative sm:flex grid',
+        {
+          [`grid-rows-2`]: !isFullscreen,
+        },
+      )}
+    >
       <div className={isFullscreen ? `hidden` : `w-full flex flex-col h-full`}>
         <nav className="flex items-center gap-1 py-1 px-0 sm:px-4 sm:py-2 bg-[#11111b]">
           {showLogo && (
-            <a title="visit the open-source project" href="https://github.com/maykbrito/fronteditorv2" target="_blank" className="text-center px-4">
+            <a
+              title="visit the open-source project"
+              href="https://github.com/maykbrito/fronteditorv2"
+              target="_blank"
+              className="text-center px-4"
+              rel="noreferrer"
+            >
               <img src={logoSvg} className="inline" alt="Fronteditor Logo" />
             </a>
           )}
@@ -71,9 +81,7 @@ export function MEditor({
           </div>
         </nav>
 
-        <main
-          className='flex flex-1 overflow-hidden relative mt-1 sm:mt-3 h-screen'
-        >
+        <main className="flex flex-1 overflow-hidden relative mt-1 sm:mt-3 h-screen">
           <CustomEditor language={selectedTab} className="absolute inset-0" />
         </main>
       </div>

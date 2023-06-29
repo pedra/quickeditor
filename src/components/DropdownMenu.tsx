@@ -7,6 +7,7 @@ import {
   FileZip,
   DownloadSimple,
   UploadSimple,
+  Folder,
 } from 'phosphor-react'
 import { EditorContentContext } from '../contexts/EditorContentContext'
 
@@ -119,11 +120,43 @@ export function DropdownMenu() {
       // Saving and go
       const stg: any = data.data
 
-      if (!replace) window.history.replaceState(null, '', data.path.toString())
+      if (!replace) window.history.replaceState(null, '', '/' + data.path.toString())
 
       updateAppData(stg)
     })
   }
+
+  async function handleLoadProject(data: any) {
+    const prefix = 'fronteditor:'
+    const path = data.path === '/' ? '' : data.path
+    const s = JSON.parse(window.localStorage.getItem(`${prefix}${path}`)!)
+
+    const d = {
+      html: s.html,
+      css: s.css,
+      javascript: s.javascript,
+      markdown: s.markdown,
+    }
+
+    window.history.replaceState(null, '', '/' + path.toString())
+    updateAppData(d)
+  }
+
+  function loadStorageData() {
+    const prefix = 'fronteditor:'
+    const result = []
+    for (const key in localStorage) {
+      if (key.substring(0, prefix.length) === prefix)
+        result.push(key.substring(prefix.length))
+    }
+
+    return result.map((r): any => {
+      const a = JSON.parse(window.localStorage.getItem(`${prefix}${r}`)!)
+      return { name: a.name || r || '/', path: a.path || r }
+    })
+  }
+
+  const projects = loadStorageData()
 
   return (
     <div className="top-16">
@@ -170,7 +203,7 @@ export function DropdownMenu() {
                   </button>
                 )}
               </Menu.Item>
-              <hr className="my-1" />
+              <hr className="my-1 border-1 border-gray-400" />
               <Menu.Item>
                 {({ active }) => (
                   <button
@@ -197,6 +230,31 @@ export function DropdownMenu() {
                   </button>
                 )}
               </Menu.Item>
+              <hr className="my-1 border-1 border-gray-400" />
+              <h3 className="bg-gray-100 py-2 text-sm text-gray-400 uppercase text-center">
+                Projects
+              </h3>
+              <div style={{ maxHeight: 400, overflowY: 'auto' }}>
+                {projects.map((r, key) => (
+                  <Menu.Item key={key}>
+                    {({ active }) => (
+                      <button
+                        className={`${
+                          active
+                            ? 'bg-green-400 text-gray-900'
+                            : 'text-gray-900'
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        onClick={() => {
+                          handleLoadProject(r)
+                        }}
+                      >
+                        <Folder size={20} className="mr-2" />
+                        {r.name}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </div>
             </div>
           </Menu.Items>
         </Transition>
