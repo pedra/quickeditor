@@ -243,7 +243,11 @@ export function DropdownMenu() {
                           active
                             ? 'bg-green-400 text-gray-900'
                             : 'text-gray-900'
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm ${
+                          '/' + r.path === window.location.pathname
+                            ? 'bg-slate-200 font-medium'
+                            : ''
+                        }`}
                         onClick={() => {
                           handleLoadProject(r)
                         }}
